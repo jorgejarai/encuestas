@@ -13,7 +13,9 @@ class Singleton(type):
 
 
 class Database(metaclass=Singleton):
+    """Almacena una instancia de PyMongo para uso en otras clases"""
     pymongo: PyMongo
 
     def setup(self, app: Flask):
+        """Configura la instancia actual de PyMongo"""
         self.pymongo = PyMongo(app)

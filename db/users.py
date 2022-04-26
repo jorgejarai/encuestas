@@ -1,54 +1,65 @@
-from bcrypt import hashpw, gensalt, checkpw
 from bson.objectid import ObjectId
 from db import Singleton, Database
 
 
 class Users(metaclass=Singleton):
     def get_all(self):
+        """Obtiene una lista con todos los usuarios"""
         ret = list(Database().pymongo.db.users.find())
 
         if ret:
             for user in ret:
-                user.pop("password")
                 user['_id'] = str(user['_id'])
 
         return ret
 
-    def get_by_id(self, id):
+    def get_by_id(self, id: str):
+        """Busca un usuario a partir de su ID. Retorna None si no lo encuentra"""
         ret = Database().pymongo.db.users.find_one({"_id": ObjectId(id)})
 
         if ret:
-            ret.pop("password")
             ret['_id'] = str(ret['_id'])
 
         return ret
 
-    def get_by_email(self, email):
+    def get_by_email(self, email: str):
+        """Busca un usuario a partir de su email. Retorna None si no lo encuentra"""
         ret = Database().pymongo.db.users.find_one({"email": email})
 
         if ret:
-            ret.pop("password")
             ret['_id'] = str(ret['_id'])
 
         return ret
 
     def create(self, **kwargs):
-        password = kwargs.pop("password")
+        """Crea un usuario a partir de **kwargs.
+
+        Ejemplo: Users().create(name="Perico Pérez", email="perico@udec.cl",
+                       role="respondent", interests=["male", "18-25", "biking",
+                                                     "women", "programming"],
+                       surveys=[])
+        """
+
         user = self.get_by_email(kwargs.get("email"))
         if user:
             return None
 
-        kwargs["password"] = hashpw(password.encode(), gensalt())
         Database().pymongo.db.users.insert_one(kwargs)
         return kwargs
 
-    def update(self, id, user):
+    def update(self, id: str, user: dict):
+        """Actualiza los datos de un usuario con determinado ID
+
+        Ejemplo: si tenemos un usuario con ID 1234 y correo "john@example.com",
+            al que le queremos cambiar el correo a "doe.john@hello.org",
+            podemos ejecutar
+
+            Users().update("1234", {"email": "doe.john@hello.org"})
+
+            Todos los demás atributos se conservan.
+        """
         Database().pymongo.db.users.update_one({"_id": id}, {"$set": user})
 
-    def delete(self, id):
+    def delete(self, id: str):
+        """Elimina los datos de un usuario con determinado ID"""
         Database().pymongo.db.users.delete_one({"_id": id})
-
-    def check_login(self, email, password):
-        user = self.get_by_email(email)
-
-        return checkpw(password, user.password)
