@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 from db import Database
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mongodb.net/encuestas?retryWrites=true&w=majority"
 
 Database().setup(app)
 

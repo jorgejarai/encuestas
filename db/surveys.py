@@ -23,8 +23,8 @@ class Surveys(metaclass=Singleton):
     def create(self, **kwargs):
         return kwargs
 
-    def update(self, id, user):
-        Database().pymongo.db.surveys.update_one({"_id": id}, {"$set": user})
+    def update(self, id, survey):
+        Database().pymongo.db.surveys.update_one({"_id": id}, {"$set": survey})
 
     def delete(self, id):
         Database().pymongo.db.surveys.delete_one({"_id": id})
