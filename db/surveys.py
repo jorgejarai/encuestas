@@ -46,7 +46,7 @@ class Surveys(metaclass=Singleton):
             ]
         """
 
-        Database().pymongo.db.users.insert_one(kwargs)
+        Database().pymongo.db.surveys.insert_one(kwargs)
 
         return kwargs
 
