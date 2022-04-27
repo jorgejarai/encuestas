@@ -1,0 +1,13 @@
+ <!--herencia de base.html -->
+ {% extends 'base.html' %}
+
+ {% block content %}
+    <h1>{% block title %} Edit Surveys {% endblock %}</h1> 
+    <tbody>
+        {% for title in titles %}
+        <tr>
+            <td>{{title.title}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+ {% endblock %}
