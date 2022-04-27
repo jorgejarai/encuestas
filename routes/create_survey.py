@@ -3,5 +3,5 @@ from flask import render_template
 
 
 @app.route('/survey')
-def create_surveyUI():
+def create_survey():
     return render_template("create_survey.html")
