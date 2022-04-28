@@ -5,7 +5,8 @@ from db import surveys
 @app.route('/edit')
 def edit_survey():
     data = surveys.Surveys().get_all()
-    return render_template("edit_survey.html", titles = data)
+    print(data)
+    return render_template("edit_survey.html", encuestas = data)
 
 @app.route('/edit/<string:id>')
 def edit_surveyid(id):
