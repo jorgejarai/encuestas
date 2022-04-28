@@ -1,0 +1,91 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      '_id',
+      'title',
+      'interests',
+      'questions'
+    ],
+    properties: {
+      _id: {
+        bsonType: 'objectId'
+      },
+      title: {
+        bsonType: 'string',
+        description: 'Título de la encuesta'
+      },
+      interests: {
+        bsonType: 'array',
+        description: 'Intereses asociados a la encuesta',
+        items: {
+          bsonType: 'string'
+        }
+      },
+      questions: {
+        bsonType: 'array',
+        description: 'Preguntas de la encuesta',
+        items: {
+          bsonType: 'object',
+          required: [
+            'position',
+            'label',
+            'type'
+          ],
+          properties: {
+            position: {
+              bsonType: 'number'
+            },
+            label: {
+              bsonType: 'string'
+            },
+            type: {
+              'enum': [
+                'selection',
+                'score',
+                'freetext',
+                'text'
+              ]
+            },
+            options: {
+              bsonType: 'array',
+              items: {
+                bsonType: 'object',
+                required: [
+                  'label',
+                  'value'
+                ],
+                properties: {
+                  label: {
+                    bsonType: 'string'
+                  }
+                }
+              }
+            },
+            range: {
+              bsonType: 'object',
+              properties: {
+                min: {
+                  bsonType: 'number'
+                },
+                max: {
+                  bsonType: 'number'
+                }
+              }
+            },
+            text: {
+              bsonType: 'string'
+            },
+            format: {
+              'enum': [
+                'email',
+                'phone',
+                'url'
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

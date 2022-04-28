@@ -1,0 +1,44 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'name',
+      'email',
+      'role'
+    ],
+    properties: {
+      name: {
+        bsonType: 'string'
+      },
+      email: {
+        bsonType: 'string'
+      },
+      role: {
+        'enum': [
+          'editor',
+          'respondent'
+        ]
+      },
+      interests: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'string'
+        }
+      },
+      surveys: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          properties: {
+            id: {
+              bsonType: 'objectId'
+            },
+            answers: {
+              bsonType: 'array'
+            }
+          }
+        }
+      }
+    }
+  }
+}
