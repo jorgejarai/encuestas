@@ -1,22 +1,113 @@
-<!DOCTYPE html>
-    <body>
-        <form method="POST">
-            <input type="hidden" name="surveyName" value="{{ name }}">
-            <input type="hidden" name="interests" value="{{ interests }}">
-            <input type="hidden" name="questions" value="{{ num_q }}">
+{% extends 'base.html' %} {% block content %}
+<form method="POST" onSubmit="handleSubmit(event)">
+  <input type="hidden" name="payload" value="" />
+  <input type="hidden" name="surveyName" value="{{ name }}" />
+  <input type="hidden" name="interests" value="{{ interests }}" />
+  <input type="hidden" name="questions" value="{{ num_q }}" />
 
-            {% for i in range(0,num_q) %}
-            
-                <input type="hidden" name="num_alt{{ i }}" value="{{ num_a[i] }}">
-                <input type="text" name="p{{ i }}" size = "60" placeholder="Inserte pregunta"><br><br>
-                {% for j in range(0,num_a[i]) %}
-                    <input type="text" name="a{{ i }}" size = "30" placeholder="Inserte alternativa"><br><br>
-                {% endfor %}
-                <input type="submit" name="agrega_A{{ i }}" value="Agregar alternativa"><br><br>
+  {% for i in range(0,num_q) %}
 
-            {% endfor %}
+  <input type="hidden" name="num_alt{{ i }}" value="{{ num_a[i] }}" />
+  <input
+    type="text"
+    name="p{{ i }}"
+    size="60"
+    placeholder="Inserte pregunta"
+  /><br /><br />
+  {% for j in range(0,num_a[i]) %}
+  <input
+    type="text"
+    name="a{{ i }}-{{ j }}"
+    size="30"
+    placeholder="Inserte alternativa"
+  /><br /><br />
+  {% endfor %}
+  <input
+    type="submit"
+    name="agrega_A{{ i }}"
+    value="Agregar alternativa"
+  /><br /><br />
 
-            <input type="submit" name="Finalizar" value="Finalizar">
-        </form>
-    </body>
-</html>
+  {% endfor %}
+
+  <input type="submit" name="Finalizar" value="Finalizar" />
+</form>
+
+<button onClick="console.log(getQuestions())">Ver</button>
+
+<script>
+  var getQuestions = () => {
+    const numQuestions = parseInt($('[name="questions"]').val(), 10);
+    const numAlternatives = {};
+
+    for (let i = 0; i < numQuestions; i++) {
+      numAlternatives[i] = parseInt($('[name="num_alt' + i + '"]').val(), 10);
+    }
+
+    const ret = [];
+
+    Object.keys(numAlternatives).forEach((i) => {
+      const question = {};
+
+      question.title = $('[name="p' + i + '"]').val();
+      question.alternatives = [];
+
+      for (let j = 0; j < numAlternatives[i]; j++) {
+        question.alternatives = [
+          ...question.alternatives,
+          $('[name="a' + i + '-' + j + '"]').val(),
+        ];
+      }
+
+      ret.push(question);
+    });
+
+    return ret;
+  };
+
+  var saveForm = () => {
+    console.log('Guardando formulario...');
+
+    const questions = getQuestions();
+    const json = JSON.stringify(questions);
+
+    localStorage.setItem('questions', json);
+  };
+
+  var clearForm = () => {
+    console.log('Limpiando formulario...');
+
+    localStorage.removeItem('questions');
+  };
+
+  var handleSubmit = (e) => {
+    const caller = e.submitter.name;
+
+    if (caller.startsWith('agrega_A')) {
+      saveForm();
+    } else {
+      $('[name="payload"]').val(JSON.stringify({ questions: getQuestions() }));
+      clearForm();
+    }
+  };
+
+  $(document).ready(() => {
+    const questions = JSON.parse(localStorage.getItem('questions'));
+
+    if (questions) {
+      const numQuestions = questions.length;
+
+      for (let i = 0; i < numQuestions; i++) {
+        const question = questions[i];
+
+        $('[name="p' + i + '"]').val(question.title);
+
+        for (let j = 0; j < question.alternatives.length; j++) {
+          $('[name="a' + i + '-' + j + '"]').val(question.alternatives[j]);
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}
