@@ -58,8 +58,9 @@ class Users(metaclass=Singleton):
 
             Todos los demás atributos se conservan.
         """
-        Database().pymongo.db.users.update_one({"_id": id}, {"$set": user})
+        Database().pymongo.db.users.update_one(
+            {"_id": ObjectId(id)}, {"$set": user})
 
     def delete(self, id: str):
         """Elimina los datos de un usuario con determinado ID"""
-        Database().pymongo.db.users.delete_one({"_id": id})
+        Database().pymongo.db.users.delete_one({"_id": ObjectId(id)})

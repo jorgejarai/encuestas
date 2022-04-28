@@ -65,8 +65,9 @@ class Surveys(metaclass=Singleton):
 
             Todos los demás atributos se conservan.
         """
-        Database().pymongo.db.surveys.update_one({"_id": id}, {"$set": survey})
+        Database().pymongo.db.surveys.update_one(
+            {"_id": ObjectId(id)}, {"$set": survey})
 
     def delete(self, id):
         """Elimina los datos de una encuesta con determinado ID"""
-        Database().pymongo.db.surveys.delete_one({"_id": id})
+        Database().pymongo.db.surveys.delete_one({"_id": ObjectId(id)})
