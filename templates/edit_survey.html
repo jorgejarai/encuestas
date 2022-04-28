@@ -3,11 +3,18 @@
 
  {% block content %}
     <h1>{% block title %} Edit Surveys {% endblock %}</h1> 
-    <tbody>
         {% for title in titles %}
         <tr>
-            <td>{{title.title}}</td>
+            <td>
+               {{title}} 
+               <a href="/edit">Edit </a>
+               <a href="/edit">Delete </a>
+               <br>
+            </td>
         </tr>
         {% endfor %}
-    </tbody>
+    
  {% endblock %}
+
+
+ 

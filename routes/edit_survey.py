@@ -1,5 +1,4 @@
 from __main__ import app
-from turtle import title
 from flask import render_template
 from db import surveys
 
@@ -7,3 +6,11 @@ from db import surveys
 def edit_survey():
     data = surveys.Surveys().get_all()
     return render_template("edit_survey.html", titles = data)
+
+@app.route('/edit/<string:id>')
+def edit_surveyid(id):
+    return (id)
+
+@app.route('/delete/<string:id>')
+def delete_surveyid(id):
+    return (id)
