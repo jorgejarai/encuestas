@@ -71,7 +71,3 @@ def create_question():
         num_a[i] += 1
 
     return render_template("create_questions.html", name=name, interests=interests, num_q=num_q, num_a=num_a)
-
-
-
-++
