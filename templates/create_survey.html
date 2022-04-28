@@ -2,8 +2,15 @@
  {% extends 'base.html' %}
 
  {% block content %}
-     <h1>{% block title %} Create Surveys {% endblock %}</h1> 
+ <form method="POST">
+    <label for="surveyName">Nombre encuesta:</label><br>
+    <input type="text" id="surveyName" name="surveyName" size = "60" placeholder="Inserte nombre"><br>
+    <label for="interests">Intereses:</label><br>
+    <input type="text" id="interests" name="interests" size = "60" placeholder="Inserte intereses"><br>
+    <label for="questions">Número de preguntas:</label><br>
+    <input type="number" id="questions" name="questions" min = "1" max = "100" oninput="validity.valid||(value='');" placeholder="0"><br><br>
+    <input type="submit" value="Siguiente">
+</form> 
   
         
-
  {% endblock %}

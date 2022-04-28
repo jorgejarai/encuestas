@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+    <body>
+        <form method="POST">
+            <input type="hidden" name="surveyName" value="{{ name }}">
+            <input type="hidden" name="interests" value="{{ interests }}">
+            <input type="hidden" name="questions" value="{{ num_q }}">
+
+            {% for i in range(0,num_q) %}
+            
+                <input type="hidden" name="num_alt{{ i }}" value="{{ num_a[i] }}">
+                <input type="text" name="p{{ i }}" size = "60" placeholder="Inserte pregunta"><br><br>
+                {% for j in range(0,num_a[i]) %}
+                    <input type="text" name="a{{ i }}" size = "30" placeholder="Inserte alternativa"><br><br>
+                {% endfor %}
+                <input type="submit" name="agrega_A{{ i }}" value="Agregar alternativa"><br><br>
+
+            {% endfor %}
+
+            <input type="submit" name="Finalizar" value="Finalizar">
+        </form>
+    </body>
+</html>
