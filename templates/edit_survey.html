@@ -3,12 +3,12 @@
 
  {% block content %}
     <h1>{% block title %} Edit Surveys {% endblock %}</h1> 
-        {% for title in titles %}
+        {% for encuesta in encuestas %}
         <tr>
             <td>
-               {{title}} 
-               <a href="/edit">Edit </a>
-               <a href="/edit">Delete </a>
+               {{encuesta.title}} 
+               <a href="/edit/{{encuesta._id}}">Edit </a>
+               <a href="/delete/{{encuesta._id}}">Delete </a>
                <br>
             </td>
         </tr>
