@@ -12,7 +12,6 @@ Database().setup(app)
 import routes.index  # nopep8
 import routes.create_survey  # nopep8
 import routes.edit_survey #nopep8
-import routes.api_survey #nopep8
 
 
 if __name__ == '__main__':
