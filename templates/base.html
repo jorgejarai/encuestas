@@ -37,7 +37,7 @@
   <body>
     <!--href para referenciar logica/def en .py -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url_for('index')}}">Inicio</a>
+      <a class="navbar-brand" href="{{ url_for('index')}}">Encuestas</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -49,7 +49,10 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
         <ul class="navbar-nav">
           <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('create_survey')}}"
@@ -75,22 +78,23 @@
           Search
         </button>
       </form> -->
-      
     </nav>
-    
+
     <div class="container">
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {%for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>{{message}}</strong>.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {%endfor%}
-      {%endif%}
-    {% endwith %}
-    {% block content %} {% endblock %}</div>
+      {% with messages = get_flashed_messages() %} {% if messages %} {%for
+      message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>.
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {%endfor%} {%endif%} {% endwith %} {% block content %} {% endblock %}
+    </div>
   </body>
 </html>
