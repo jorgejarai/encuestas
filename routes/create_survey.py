@@ -15,7 +15,6 @@ def create_question():
     interests = request.form['interests']
     num_q = int(request.form['questions'])
     num_a = []
-
     if "Finalizar" in request.form.keys():
         payload = request.form["payload"]
         questions = json.loads(payload)["questions"]
