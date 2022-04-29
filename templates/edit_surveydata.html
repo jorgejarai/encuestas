@@ -4,11 +4,30 @@
  {% block content %}
  <form method="POST">
     <label for="surveyName">Nombre encuesta:</label><br>
-    <input type="text" id="surveyName" name="surveyName" size = "60" placeholder="Inserte nombre"><br>
+    <input type="text" id="surveyName" name="surveyName" size = "60" placeholder="Inserte nombre" value="{{encuesta.title}}"><br>
     <label for="interests">Intereses:</label><br>
-    <input type="text" id="interests" name="interests" size = "60" placeholder="Inserte intereses"><br>
-    <label for="questions">Número de preguntas:</label><br>
-    <input type="number" id="questions" name="questions" min = "1" max = "100" oninput="validity.valid||(value='');" placeholder="0"><br><br>
+    <input type="text" id="interests" name="interests" size = "60" placeholder="Inserte intereses" value="{{encuesta.interests[0]}}"><br>
+    <br>
+    {% for i in range(0,num_q) %}
+    <input
+        type="text"
+        name="p{{ i }}"
+        size="60"
+        placeholder="Inserte pregunta"
+        value="{{encuesta.questions[i].label}}"
+        /><br /><br />
+        {% for j in range(0,num_a[i]) %}
+        <input
+            type="text"
+            name="a{{ i }}-{{ j }}"
+            size="30"
+            placeholder="Inserte alternativa"
+            value="{{encuesta.questions[i].alternatives[j].label}}"
+        /><br /><br />
+    {% endfor %}
+    
+    {% endfor %}
+
     <input type="submit" value="Siguiente">
 </form> 
   
