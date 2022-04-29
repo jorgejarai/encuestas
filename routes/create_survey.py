@@ -1,11 +1,13 @@
 from __main__ import app
 from db.surveys import Surveys
-from flask import render_template, request
+from flask import render_template, request, url_for, flash, redirect 
 import json
-
+import time
+app.secret_key = 'my_key'
 
 @app.route('/survey')
 def create_survey():
+    
     return render_template("create_survey.html")
 
 
@@ -41,15 +43,17 @@ def create_question():
             Surveys().create(title=name.strip(),
                              interests=formatted_interests,
                              questions=formatted_questions)
+            
         except ValueError as e:
             return {
                 "status": "error",
                 "message": str(e)
             }
+            
+        flash(name.strip())
+        
 
-        return {
-            "status": "success"
-        }
+        #return redirect(url_for('create_survey'))
 
     for i in range(num_q):
         num_a.append(0)
