@@ -1,5 +1,5 @@
 from __main__ import app
-from flask import flash, render_template, url_for, redirect
+from flask import flash, render_template, url_for, redirect,flash
 from db import surveys
 
 @app.route('/edit')
@@ -18,4 +18,5 @@ def get_surveyid(id):
 def delete_surveyid(id):
     print(id)
     surveys.Surveys().delete(id)
+    flash('Se ha eliminado correctamente')
     return redirect(url_for('edit_survey'))

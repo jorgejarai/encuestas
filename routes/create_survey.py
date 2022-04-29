@@ -18,6 +18,7 @@ def create_question():
     num_q = int(request.form['questions'])
     num_a = []
     if "Finalizar" in request.form.keys():
+        
         payload = request.form["payload"]
         questions = json.loads(payload)["questions"]
 
@@ -49,11 +50,11 @@ def create_question():
                 "status": "error",
                 "message": str(e)
             }
-            
-        flash(name.strip())
-        
 
-        #return redirect(url_for('create_survey'))
+        
+        flash('{} se ha ingresado correctamente'.format(name.strip()))
+        #return render_template("create_survey.html",title=name.strip())
+        return redirect(url_for("create_survey"))
 
     for i in range(num_q):
         num_a.append(0)
