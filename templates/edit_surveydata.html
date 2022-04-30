@@ -9,6 +9,7 @@
     <input type="text" id="interests" name="interests" size = "60" placeholder="Inserte intereses" value="{{encuesta.interests[0]}}"><br>
     <br>
     {% for i in range(0,num_q) %}
+    <label for="p{{ i }}">Pregunta {{i+1}}</label><br>
     <input
         type="text"
         name="p{{ i }}"
@@ -17,7 +18,7 @@
         value="{{encuesta.questions[i].label}}"
         /><br /><br />
         {% for j in range(0,num_a[i]) %}
-        <input
+        Alternativa: <input
             type="text"
             name="a{{ i }}-{{ j }}"
             size="30"
@@ -29,7 +30,7 @@
     {% endfor %}
 
     <button type="submit">
-        save
+        Guardar
     </button>
 </form> 
   

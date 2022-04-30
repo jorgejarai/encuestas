@@ -17,21 +17,19 @@ def get_surveyid(id):
     num_alternatives = []
     
     for i in range(0,num_questions):
-        print(questions[i].get('alternatives'))
         num_alternatives.insert(i, len(questions[i].get('alternatives')))
     
-    print(num_alternatives)
 
     return render_template("edit_surveydata.html", encuesta = data, num_q = num_questions, num_a = num_alternatives)
 
 @app.route('/update/<id>' , methods = ['POST'])
 def update_survey(id):
     inter = []
-    quest = []
     title = request.form['surveyName']
     inter.append(request.form['interests']) 
-    quest.append(request.form['questions'])
-    surveys.Surveys().update(id,{"title": title,"interests": inter,"questions":quest})
+    
+    print(request.form)
+    surveys.Surveys().update(id,{"title": title,"interests": inter})
 
     return redirect(url_for('edit_survey'))
 
