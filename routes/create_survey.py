@@ -21,7 +21,6 @@ def create_question():
         
         payload = request.form["payload"]
         questions = json.loads(payload)["questions"]
-
         for (i, question) in enumerate(questions):
             if len(question["alternatives"]) == 0:
                 return {
