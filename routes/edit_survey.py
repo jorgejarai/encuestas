@@ -1,4 +1,5 @@
 from __main__ import app
+from re import I
 from turtle import title
 from flask import flash, render_template, request, url_for, redirect
 from db import surveys
@@ -27,8 +28,15 @@ def update_survey(id):
     inter = []
     title = request.form['surveyName']
     inter.append(request.form['interests']) 
+    i = 0
+    p_id = []
     
-    print(request.form)
+    while "p"+str(i) in request.form.keys(): #se obtienen las preguntas, pero sin alternativas
+        p_id.append(request.form["p"+str(i)])
+        i +=1
+    
+    print(p_id)
+
     surveys.Surveys().update(id,{"title": title,"interests": inter})
 
     return redirect(url_for('edit_survey'))
