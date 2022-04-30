@@ -1,5 +1,6 @@
 from __main__ import app
-from flask import flash, render_template, url_for, redirect
+from turtle import title
+from flask import flash, render_template, request, url_for, redirect
 from db import surveys
 
 @app.route('/edit')
@@ -22,6 +23,17 @@ def get_surveyid(id):
     print(num_alternatives)
 
     return render_template("edit_surveydata.html", encuesta = data, num_q = num_questions, num_a = num_alternatives)
+
+@app.route('/update/<id>' , methods = ['POST'])
+def update_survey(id):
+    inter = []
+    quest = []
+    title = request.form['surveyName']
+    inter.append(request.form['interests']) 
+    quest.append(request.form['questions'])
+    surveys.Surveys().update(id,{"title": title,"interests": inter,"questions":quest})
+
+    return redirect(url_for('edit_survey'))
 
 @app.route('/delete/<string:id>')
 def delete_surveyid(id):

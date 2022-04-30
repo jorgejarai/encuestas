@@ -2,7 +2,7 @@
  {% extends 'base.html' %}
 
  {% block content %}
- <form method="POST">
+ <form action="/update/{{encuesta._id}}" method="POST">
     <label for="surveyName">Nombre encuesta:</label><br>
     <input type="text" id="surveyName" name="surveyName" size = "60" placeholder="Inserte nombre" value="{{encuesta.title}}"><br>
     <label for="interests">Intereses:</label><br>
@@ -28,7 +28,9 @@
     
     {% endfor %}
 
-    <input type="submit" value="Siguiente">
+    <button type="submit">
+        save
+    </button>
 </form> 
   
         

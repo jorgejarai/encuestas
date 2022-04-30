@@ -29,7 +29,7 @@ def create_question():
                     "message": f"La pregunta {i + 1} no tiene alternativas"
                 }
 
-        formatted_interests = interests.replace(" ", "").split(",")
+        formatted_interests = [x for x in interests.strip().split(" ") if x]
         formatted_questions = [{"position": i,
                                 "label": q["title"].strip(),
                                 "type": "selection",
@@ -53,7 +53,6 @@ def create_question():
 
         
         flash('{} se ha ingresado correctamente'.format(name.strip()))
-        #return render_template("create_survey.html",title=name.strip())
         return redirect(url_for("create_survey"))
 
     for i in range(num_q):
@@ -72,7 +71,6 @@ def create_question():
         for j in range(num_q):
             v = request.form['num_alt'+str(j)]
             num_a[j] = int(v)
-        # val = request.form['num_alt'+str(i)] #val actual de la cant de prgtas para el correspondiente indice
         num_a[i] += 1
 
     return render_template("create_questions.html", name=name, interests=interests, num_q=num_q, num_a=num_a)
