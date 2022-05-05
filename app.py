@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from flask import Flask
-
 from db import Database
 
 app = Flask(__name__)
@@ -9,10 +8,11 @@ app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mong
 
 Database().setup(app)
 
-import routes.index  # nopep8
+import routes  # nopep8
 import routes.create_survey  # nopep8
-import routes.edit_survey #nopep8
+import routes.edit_survey  # nopep8
+import routes.get_survey  # nopep8
 
 
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    app.run(port=3001, debug=True)

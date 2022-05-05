@@ -1,70 +1,48 @@
 from __main__ import app
-from flask import flash, render_template, request, url_for, redirect
+from flask import request
 from db import surveys
-import json
-import pprint
 
 
-@app.route('/edit')
-def edit_survey():
-    data = surveys.Surveys().get_all()
-    return render_template("edit_survey.html", encuestas=data)
-
-
-@app.route('/edit/<id>')
-def get_surveyid(id):
-    data = surveys.Surveys().get_by_id(id)
-    questions = data.get('questions')
-
-    num_questions = len(questions)
-    num_alternatives = []
-
-    for i in range(0, num_questions):
-        num_alternatives.insert(i, len(questions[i].get('alternatives')))
-
-    return render_template("edit_surveydata.html", encuesta=data, num_q=num_questions, num_a=num_alternatives)
-
-
-@app.route('/update/<id>', methods=['POST'])
+@app.route("/surveys/<id>", methods=['PUT'])
 def update_survey(id):
-    name = request.form['surveyName']
-    interests = request.form['interests']
+    title = request.json["title"]
+    interests = request.json["interests"]
+    questions = request.json["questions"]
 
-    payload = request.form["payload"]
-    questions = json.loads(payload)["questions"]
-
-    formatted_interests = [x for x in interests.strip().split(" ") if x]
     formatted_questions = [{"position": i,
-                            "label": q["title"].strip(),
+                            "label": q["label"].strip(),
                             "type": "selection",
-                            "alternatives":
-                                [{"value": alternative.strip(),
-                                    "label": alternative.strip()}
-                                    for alternative in q["alternatives"]
-                                    if alternative.strip() != ""]
+                            "alternatives": q["alternatives"]
                             } for i, q in enumerate(questions)]
 
     try:
         new_survey = {
-            "title": name.strip(),
-            "interests": formatted_interests,
+            "title": title.strip(),
+            "interests": interests,
             "questions": formatted_questions
         }
         surveys.Surveys().update(id, survey=new_survey)
-
     except ValueError as e:
         return {
             "status": "error",
             "message": str(e)
         }
 
-    flash('{} se ha ingresado correctamente'.format(name.strip()))
+    return {
+        "status": "success",
+    }
 
-    return redirect(url_for('edit_survey'))
 
-
-@app.route('/delete/<string:id>')
+@app.route('/surveys/<id>', methods=['DELETE'])
 def delete_surveyid(id):
-    print(id)
-    surveys.Surveys().delete(id)
-    return redirect(url_for('edit_survey'))
+    try:
+        surveys.Surveys().delete(id)
+    except ValueError as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+
+    return {
+        "status": "success",
+    }

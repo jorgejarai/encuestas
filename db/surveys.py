@@ -5,7 +5,10 @@ from db import Singleton, Database
 class Surveys(metaclass=Singleton):
     def get_all(self):
         """Obtiene una lista con todas las encuestas"""
-        ret = list(Database().pymongo.db.surveys.find())
+        ret = list(Database().pymongo.db.surveys.find({}, {
+            "_id": 1,
+            "title": 1,
+        }))
 
         if ret:
             for survey in ret:
