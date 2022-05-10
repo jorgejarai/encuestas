@@ -1,9 +1,11 @@
 from __main__ import app
 from flask import request
 from db import surveys
+from flask_cors import cross_origin
 
 
 @app.route("/surveys/<id>", methods=['PUT'])
+@cross_origin()
 def update_survey(id):
     title = request.json["title"]
     interests = request.json["interests"]
@@ -34,6 +36,7 @@ def update_survey(id):
 
 
 @app.route('/surveys/<id>', methods=['DELETE'])
+@cross_origin()
 def delete_surveyid(id):
     try:
         surveys.Surveys().delete(id)

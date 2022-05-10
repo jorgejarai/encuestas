@@ -2,9 +2,11 @@ from __main__ import app
 from db.surveys import Surveys
 from flask import request
 import json
+from flask_cors import cross_origin
 
 
 @app.route('/surveys', methods=["POST"])
+@cross_origin()
 def create_question():
     name = request.form['surveyName']
     interests = request.form['interests']
