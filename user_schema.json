@@ -1,42 +1,25 @@
 {
-  $jsonSchema: {
-    bsonType: 'object',
-    required: [
-      'name',
-      'email',
-      'role'
-    ],
-    properties: {
-      name: {
-        bsonType: 'string'
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": ["name", "email", "role"],
+    "properties": {
+      "name": {
+        "bsonType": "string",
+        "description": "Nombre del encuestado"
       },
-      email: {
-        bsonType: 'string'
+      "email": {
+        "bsonType": "string",
+        "description": "Correo electrónico del encuestado"
       },
-      role: {
-        'enum': [
-          'editor',
-          'respondent'
-        ]
+      "role": {
+        "enum": ["editor", "respondent"],
+        "description": "Rol del encuestado"
       },
-      interests: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'string'
-        }
-      },
-      surveys: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'object',
-          properties: {
-            id: {
-              bsonType: 'objectId'
-            },
-            answers: {
-              bsonType: 'array'
-            }
-          }
+      "interests": {
+        "bsonType": "array",
+        "description": "Intereses del encuestado",
+        "items": {
+          "bsonType": "string"
         }
       }
     }
