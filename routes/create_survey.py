@@ -1,18 +1,15 @@
 from __main__ import app
 from db.surveys import Surveys
 from flask import request
-import json
 from flask_cors import cross_origin
 
 
 @app.route('/surveys', methods=["POST"])
 @cross_origin()
 def create_question():
-    name = request.form['surveyName']
-    interests = request.form['interests']
-    payload = request.form["payload"]
-
-    questions = json.loads(payload)["questions"]
+    title = request.json["title"]
+    interests = request.json["interests"]
+    questions = request.json["questions"]
 
     for (i, question) in enumerate(questions):
         if len(question["alternatives"]) == 0:
@@ -21,21 +18,17 @@ def create_question():
                 "message": f"La pregunta {i + 1} no tiene alternativas"
             }
 
-    formatted_interests = [x for x in interests.strip().split(" ") if x]
-    formatted_questions = [{"position": i,
-                            "label": q["title"].strip(),
-                            "type": "selection",
-                            "alternatives":
-                                [{"value": alternative.strip(),
-                                    "label": alternative.strip()}
-                                    for alternative in q["alternatives"]
-                                    if alternative.strip() != ""]
-                            } for i, q in enumerate(questions)]
+    formatted_questions = [{
+        "label": q["label"].strip(),
+        "type": "selection",
+        "alternatives": q["alternatives"]
+    } for q in questions]
 
     try:
-        Surveys().create(title=name.strip(),
-                         interests=formatted_interests,
-                         questions=formatted_questions)
+        Surveys().create(title=title.strip(),
+                         interests=interests,
+                         questions=formatted_questions,
+                         published=False)
     except ValueError as e:
         return {
             "status": "error",
