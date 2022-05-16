@@ -1,7 +1,11 @@
 {
   "$jsonSchema": {
     "bsonType": "object",
-    "required": ["name", "email", "role"],
+    "required": [
+      "name",
+      "email",
+      "role"
+    ],
     "properties": {
       "name": {
         "bsonType": "string",
@@ -12,7 +16,10 @@
         "description": "Correo electrónico del encuestado"
       },
       "role": {
-        "enum": ["editor", "respondent"],
+        "enum": [
+          "editor",
+          "respondent"
+        ],
         "description": "Rol del encuestado"
       },
       "interests": {
@@ -21,6 +28,10 @@
         "items": {
           "bsonType": "string"
         }
+      },
+      "password": {
+        "bsonType": "string",
+        "description": "Contraseña cifrada con bcrypt"
       }
     }
   }
