@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId
 from db import Singleton, Database
+import bcrypt
 
 
 class Users(metaclass=Singleton):
@@ -64,3 +65,13 @@ class Users(metaclass=Singleton):
     def delete(self, id: str):
         """Elimina los datos de un usuario con determinado ID"""
         Database().pymongo.db.users.delete_one({"_id": ObjectId(id)})
+
+    def login(self, email: str, password: str):
+        """Revisa si las credenciales del usuario dado son válidas"""
+
+        user = self.get_by_email(email)
+
+        if not user:
+            return False
+
+        return bcrypt.checkpw(password.encode(), user["password"].encode())

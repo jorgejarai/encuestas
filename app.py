@@ -16,6 +16,7 @@ import routes  # nopep8
 import routes.create_survey  # nopep8
 import routes.edit_survey  # nopep8
 import routes.get_survey  # nopep8
+import routes.login  # nopep8
 
 
 if __name__ == '__main__':
