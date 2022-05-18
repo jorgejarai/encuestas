@@ -41,7 +41,11 @@ def requires_auth(**dec_kwargs):
         """Decorador para rutas que requieren autenticación"""
         @wraps(f)
         def wrapper(*args, **kwargs):
-            token = request.headers.get('Authorization').split(' ')[1]
+            authorization = request.headers.get('Authorization')
+            if not authorization:
+                abort(401)
+
+            token = authorization.split(' ')[1]
             decoded = check_token(token)
 
             if not decoded:
