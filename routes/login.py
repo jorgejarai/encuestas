@@ -1,6 +1,9 @@
 from __main__ import app
 from flask import make_response, request
 from flask_cors import cross_origin
+import datetime
+from auth import requires_auth
+import jwt
 
 from db.users import Users
 
@@ -23,10 +26,14 @@ def login():
             "message": "Email o contraseña incorrectos"
         }
 
-    res = make_response({
+    encoded_jwt = jwt.encode({
+        "sub": email,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
+        "iat": datetime.datetime.utcnow(),
+        "role": Users().get_role(email)
+    }, app.config["JWT_SECRET"], algorithm="HS256")
+
+    return {
         "status": "success",
-    })
-
-    # TODO: Generar token JWT y adjuntarlo a la respuesta con una cookie
-
-    return res
+        "jwt": encoded_jwt
+    }

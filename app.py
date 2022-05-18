@@ -9,6 +9,7 @@ app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mong
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['JWT_SECRET'] = 'secret'
 
 Database().setup(app)
 

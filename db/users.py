@@ -75,3 +75,13 @@ class Users(metaclass=Singleton):
             return False
 
         return bcrypt.checkpw(password.encode(), user["password"].encode())
+
+    def get_role(self, email: str):
+        """Retorna el rol del usuario con determinado correo"""
+
+        user = self.get_by_email(email)
+
+        if not user:
+            return None
+
+        return user['role']
