@@ -1,9 +1,7 @@
 from __main__ import app
-from flask import make_response, request
+from flask import request
 from flask_cors import cross_origin
-import datetime
-from auth import generate_token, requires_auth
-import jwt
+from auth import generate_token
 
 from db.users import Users
 
