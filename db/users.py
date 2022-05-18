@@ -74,6 +74,9 @@ class Users(metaclass=Singleton):
         if not user:
             return False
 
+        if user['role'] != 'editor':
+            return False
+
         return bcrypt.checkpw(password.encode(), user["password"].encode())
 
     def get_role(self, email: str):
