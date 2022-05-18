@@ -30,7 +30,6 @@ def login():
         "sub": email,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
         "iat": datetime.datetime.utcnow(),
-        "role": Users().get_role(email)
     }, app.config["JWT_SECRET"], algorithm="HS256")
 
     return {

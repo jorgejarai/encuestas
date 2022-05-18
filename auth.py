@@ -2,6 +2,7 @@ from __main__ import app
 from functools import wraps
 from pickle import decode_long
 from flask import request, abort
+from db.users import Users
 import jwt
 
 
@@ -36,7 +37,7 @@ def requires_auth(**dec_kwargs):
             if not decoded:
                 abort(401)
 
-            if role and role != decoded["role"]:
+            if role and role != Users().get_role(decoded["sub"]):
                 abort(401)
 
             return f(*args, **kwargs)
