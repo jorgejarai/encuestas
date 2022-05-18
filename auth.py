@@ -1,9 +1,19 @@
 from __main__ import app
 from functools import wraps
-from pickle import decode_long
 from flask import request, abort
 from db.users import Users
 import jwt
+import datetime
+
+
+def generate_token(email: str):
+    """Genera un JWT para un email dado."""
+
+    return jwt.encode({
+        "sub": email,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
+        "iat": datetime.datetime.utcnow(),
+    }, app.config["JWT_SECRET"], algorithm="HS256")
 
 
 def check_token(token):

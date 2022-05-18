@@ -2,7 +2,7 @@ from __main__ import app
 from flask import make_response, request
 from flask_cors import cross_origin
 import datetime
-from auth import requires_auth
+from auth import generate_token, requires_auth
 import jwt
 
 from db.users import Users
@@ -26,13 +26,7 @@ def login():
             "message": "Email o contraseña incorrectos"
         }
 
-    encoded_jwt = jwt.encode({
-        "sub": email,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
-        "iat": datetime.datetime.utcnow(),
-    }, app.config["JWT_SECRET"], algorithm="HS256")
-
     return {
         "status": "success",
-        "jwt": encoded_jwt
+        "jwt": generate_token(email)
     }
