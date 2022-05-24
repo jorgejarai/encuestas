@@ -1,5 +1,5 @@
 from __main__ import app
-from flask import request
+from flask import request, make_response
 from flask_cors import cross_origin
 from auth import generate_token, requires_auth
 
@@ -45,7 +45,10 @@ def link_login():
             "message": "Secreto inválido"
         }
 
-    return {
+    ret = make_response({
         "status": "success",
-        "jwt": generate_token(email)
-    }
+    })
+
+    ret.set_cookie("token", generate_token(email))
+
+    return ret
