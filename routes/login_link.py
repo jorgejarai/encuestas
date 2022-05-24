@@ -1,5 +1,5 @@
 from __main__ import app
-from flask import request, make_response
+from flask import request, make_response, redirect
 from flask_cors import cross_origin
 from auth import generate_token, requires_auth
 
@@ -11,6 +11,7 @@ from db.link_sessions import LinkSessions
 @requires_auth(role='editor')
 def generate_link():
     email = request.json["email"]
+    survey = request.json["survey"]
 
     if not email:
         return {
@@ -18,7 +19,7 @@ def generate_link():
             "message": "Necesita un email"
         }
 
-    link = LinkSessions().add(email)
+    link = LinkSessions().add(email, survey)
 
     return {
         "status": "success",
@@ -37,18 +38,16 @@ def link_login():
             "message": "Necesita un secreto"
         }
 
-    email = LinkSessions().check(secret)
+    link_session = LinkSessions().check(secret)
 
-    if not email:
+    if not link_session:
         return {
             "status": "error",
             "message": "Secreto inválido"
         }
 
-    ret = make_response({
-        "status": "success",
-    })
-
-    ret.set_cookie("token", generate_token(email))
+    ret = make_response(
+        redirect(f'localhost:3000/survey/{link_session["survey_id"]}'))
+    ret.set_cookie("token", generate_token(link_session["email"]))
 
     return ret

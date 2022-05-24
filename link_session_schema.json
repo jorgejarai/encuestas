@@ -6,7 +6,8 @@
             "email",
             "time",
             "duration",
-            "secret"
+            "secret",
+            "survey_id"
         ],
         "properties": {
             "_id": {
@@ -23,6 +24,9 @@
             },
             "secret": {
                 "bsonType": "string"
+            },
+            "survey_id": {
+                "bsonType": "objectId"
             }
         }
     }

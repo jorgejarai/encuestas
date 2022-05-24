@@ -1,10 +1,11 @@
 from db import Singleton, Database
 from datetime import datetime
 from uuid import uuid4
+from bson import ObjectId
 
 
 class LinkSessions(metaclass=Singleton):
-    def add(self, email: str):
+    def add(self, email: str, survey: str):
         """Genera una sesión de link a la base de datos. Retorna un link
         de login automático para el usuario especificado."""
 
@@ -14,7 +15,8 @@ class LinkSessions(metaclass=Singleton):
             "email": email,
             "time": datetime.utcnow().timestamp(),
             "duration": 60 * 60 * 24 * 7,
-            "secret": secret
+            "secret": secret,
+            "survey_id": ObjectId(survey)
         })
 
         return f"/login_link?secret={secret}"
@@ -33,4 +35,4 @@ class LinkSessions(metaclass=Singleton):
         if ret["time"] + ret["duration"] < datetime.utcnow().timestamp():
             return None
 
-        return ret['email']
+        return ret
