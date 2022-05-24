@@ -7,7 +7,6 @@ from flask_cors import cross_origin
 @cross_origin()
 def get_surveys():
     data = surveys.Surveys().get_all()
-
     if not data:
         return {
             "status": "error",

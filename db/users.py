@@ -13,7 +13,21 @@ class Users(metaclass=Singleton):
                 user['_id'] = str(user['_id'])
 
         return ret
+    def get_respondents(self):
+        """Obtiene una lista con todos los usuarios respondents"""
+        ret = list(Database().pymongo.db.users.find({"role":"respondent"},
+            {   "_id":1,
+                "name":1,
+                "email":1,
+                "role":"respondent",
+                "interests":1
 
+            }))
+
+        if ret:
+            for user in ret:
+                user['_id'] = str(user['_id'])
+        return ret
     def get_by_id(self, id: str):
         """Busca un usuario a partir de su ID. Retorna None si no lo encuentra"""
         ret = Database().pymongo.db.users.find_one({"_id": ObjectId(id)})
