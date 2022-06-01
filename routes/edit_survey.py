@@ -11,6 +11,22 @@ def update_survey(id):
     interests = request.json["interests"]
     questions = request.json["questions"]
     published = request.json["published"]
+    
+    if len(title) == 0:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene título"
+            }
+    if interests == ['']:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene intereses"
+            }
+    if len(questions) == 0:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene preguntas"
+            }
 
     for (i, question) in enumerate(questions):
         if len(question["alternatives"]) == 0:

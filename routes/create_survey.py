@@ -11,13 +11,27 @@ def create_question():
     interests = request.json["interests"]
     questions = request.json["questions"]
 
+    if len(title) == 0:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene título"
+            }
+    if interests == ['']:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene intereses"
+            }
+    if len(questions) == 0:
+        return {
+                "status": "error",
+                "message": "La encuesta no tiene preguntas"
+            }
     for (i, question) in enumerate(questions):
         if len(question["alternatives"]) == 0:
             return {
                 "status": "error",
                 "message": f"La pregunta {i + 1} no tiene alternativas"
             }
-
     formatted_questions = [{
         "label": q["label"].strip(),
         "type": "selection",
