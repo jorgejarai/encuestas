@@ -52,7 +52,7 @@ class Surveys(metaclass=Singleton):
         if Database().pymongo.db.surveys.find_one({
             "title": kwargs["title"]
         }):
-            raise ValueError("Ya existe una encuesta con ese título")
+            raise ValueError("Ya existe una encuesta con ese título.")
 
         Database().pymongo.db.surveys.insert_one(kwargs)
 
