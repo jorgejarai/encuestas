@@ -11,13 +11,14 @@ def update_respondent(id):
     name = request.json["name"]
     email = request.json["email"]
     interests = request.json["interests"]
+
     try:
         new_respondent = {
             "name": name,
             "interests": interests,
-            "email":email,
-           
+            "email": email,
         }
+
         Users().update(id, user=new_respondent)
     except ValueError as e:
         return {
@@ -28,6 +29,8 @@ def update_respondent(id):
     return {
         "status": "success",
     }
+
+
 @app.route('/respondent/<id>', methods=['DELETE'])
 @cross_origin()
 def delete_respondentid(id):

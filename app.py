@@ -20,8 +20,8 @@ import routes.edit_survey  # nopep8
 import routes.get_survey  # nopep8
 import routes.login  # nopep8
 import routes.login_link  # nopep8
-import routes.get_respondents  #nopep8
-
+import routes.get_respondents  # nopep8
+import routes.edit_respondent  # nopep8
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True)
