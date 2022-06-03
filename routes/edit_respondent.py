@@ -1,11 +1,10 @@
 from __main__ import app
 from flask import request
-from db import surveys
 from db.users import Users
 from flask_cors import cross_origin
 
 
-@app.route("/respondent/<id>", methods=['PUT'])
+@app.route("/respondents/<id>", methods=['PUT'])
 @cross_origin()
 def update_respondent(id):
     name = request.json["name"]
@@ -31,7 +30,7 @@ def update_respondent(id):
     }
 
 
-@app.route('/respondent/<id>', methods=['DELETE'])
+@app.route('/respondents/<id>', methods=['DELETE'])
 @cross_origin()
 def delete_respondentid(id):
     try:

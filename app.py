@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from ipaddress import ip_address
 from flask import Flask
 from flask_cors import CORS
 from db import Database
