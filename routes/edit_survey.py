@@ -29,10 +29,21 @@ def update_survey(id):
             }
 
     for (i, question) in enumerate(questions):
+        if question["label"] == "":
+            return {
+                "status": "error",
+                "message": f"La pregunta {i + 1} no tiene texto"
+            }
         if len(question["alternatives"]) == 0:
             return {
                 "status": "error",
                 "message": f"La pregunta {i + 1} no tiene alternativas"
+            }
+        for (j, alt) in enumerate(question["alternatives"]):
+            if alt["label"] == "":
+                return {
+                "status": "error",
+                "message": f"La pregunta {i + 1} no tiene texto en la alternativa {j+1}"
             }
 
     formatted_questions = [{
