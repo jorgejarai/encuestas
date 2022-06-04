@@ -70,6 +70,13 @@ class Surveys(metaclass=Singleton):
         """
         Database().pymongo.db.surveys.update_one(
             {"_id": ObjectId(id)}, {"$set": survey})
+    
+    def add_answers(self, id, survey):
+        """
+            Añade las respuestas de una encuesta
+        """
+        Database().pymongo.db.surveys.update_one(
+            {"_id": ObjectId(id)}, {"$addToSet": { "answers": survey }})
 
     def delete(self, id):
         """Elimina los datos de una encuesta con determinado ID"""
