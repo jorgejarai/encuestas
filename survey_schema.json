@@ -1,7 +1,13 @@
 {
   "$jsonSchema": {
     "bsonType": "object",
-    "required": ["_id", "title", "interests", "questions", "published"],
+    "required": [
+      "_id",
+      "title",
+      "interests",
+      "questions",
+      "published"
+    ],
     "properties": {
       "_id": {
         "bsonType": "objectId"
@@ -21,7 +27,10 @@
         "bsonType": "array",
         "description": "Preguntas de la encuesta",
         "items": {
-          "required": ["label", "type"],
+          "required": [
+            "label",
+            "type"
+          ],
           "properties": {
             "label": {
               "description": "Texto de la pregunta",
@@ -29,14 +38,22 @@
             },
             "type": {
               "description": "Tipo de pregunta",
-              "enum": ["selection", "score", "freetext", "text"]
+              "enum": [
+                "selection",
+                "score",
+                "freetext",
+                "text"
+              ]
             },
             "options": {
               "bsonType": "array",
               "description": "Alternativas de la pregunta, si type es \"selection\"",
               "items": {
                 "bsonType": "object",
-                "required": ["label", "value"],
+                "required": [
+                  "label",
+                  "value"
+                ],
                 "properties": {
                   "label": {
                     "bsonType": "string"
@@ -62,7 +79,11 @@
             },
             "format": {
               "description": "Tipo de la respuesta de texto esperada, si type es \"text\"",
-              "enum": ["email", "phone", "url"]
+              "enum": [
+                "email",
+                "phone",
+                "url"
+              ]
             }
           }
         }
@@ -76,13 +97,16 @@
         "bsonType": "array",
         "items": {
           "bsonType": "object",
-          "required": ["user_id", "answers"],
+          "required": [
+            "user_id",
+            "responses"
+          ],
           "properties": {
             "user_id": {
               "bsonType": "objectId",
               "description": "ID del usuario encuestado"
             },
-            "answers": {
+            "responses": {
               "bsonType": "array",
               "description": "Respuestas del encuestado"
             }
