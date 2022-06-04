@@ -10,7 +10,22 @@ def update_respondent(id):
     name = request.json["name"]
     email = request.json["email"]
     interests = request.json["interests"]
-
+    
+    if len(name) == 0:
+        return {
+                "status": "error",
+                "message": "Falta el nombre."
+            }
+    if len(email) == 0:
+        return {
+                "status": "error",
+                "message": "Falta el email."
+            }
+    if len(interests) == ['']:
+        return {
+                "status": "error",
+                "message": "Faltan intereses."
+            }
     try:
         new_respondent = {
             "name": name,
