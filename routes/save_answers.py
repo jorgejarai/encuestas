@@ -10,6 +10,13 @@ def save_answers(id, user_id):
     answers = request.json["answers"]
     answers["user_id"] = ObjectId(answers["user_id"])
 
+    for (i, resp) in enumerate(answers["responses"]):
+        if resp == "":
+            return {
+                "status": "error",
+                "message": f"La pregunta {i + 1} no ha sido respondida"
+            }       
+ 
     try:
         surveys.Surveys().add_answers(id, answers)
     except ValueError as e:
