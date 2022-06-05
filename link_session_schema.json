@@ -3,7 +3,7 @@
         "bsonType": "object",
         "required": [
             "_id",
-            "email",
+            "user",
             "time",
             "duration",
             "secret",
@@ -13,8 +13,8 @@
             "_id": {
                 "bsonType": "objectId"
             },
-            "email": {
-                "bsonType": "string"
+            "user": {
+                "bsonType": "objectId"
             },
             "time": {
                 "bsonType": "double"

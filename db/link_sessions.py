@@ -11,8 +11,10 @@ class LinkSessions(metaclass=Singleton):
 
         secret = str(uuid4())
 
+        user_id = Database().pymongo.db.users.find_one({"email": email})["_id"]
+
         Database().pymongo.db.link_sessions.insert_one({
-            "email": email,
+            "user": user_id,
             "time": datetime.utcnow().timestamp(),
             "duration": 60 * 60 * 24 * 7,
             "secret": secret,
