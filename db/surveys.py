@@ -14,6 +14,10 @@ class Surveys(metaclass=Singleton):
             for survey in ret:
                 survey['_id'] = str(survey['_id'])
 
+                if 'answers' in survey:
+                    for answer in survey['answers']:
+                        answer['user_id'] = str(answer['user_id'])
+
         return ret
 
     def get_by_id(self, id):
@@ -22,6 +26,10 @@ class Surveys(metaclass=Singleton):
 
         if ret:
             ret['_id'] = str(ret['_id'])
+
+            if 'answers' in ret:
+                for answer in ret['answers']:
+                    answer['user_id'] = str(answer['user_id'])
 
         return ret
 
@@ -70,13 +78,13 @@ class Surveys(metaclass=Singleton):
         """
         Database().pymongo.db.surveys.update_one(
             {"_id": ObjectId(id)}, {"$set": survey})
-    
+
     def add_answers(self, id, survey):
         """
             Añade las respuestas de una encuesta
         """
         Database().pymongo.db.surveys.update_one(
-            {"_id": ObjectId(id)}, {"$addToSet": { "answers": survey }})
+            {"_id": ObjectId(id)}, {"$addToSet": {"answers": survey}})
 
     def delete(self, id):
         """Elimina los datos de una encuesta con determinado ID"""
