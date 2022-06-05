@@ -22,6 +22,7 @@ import routes.login_link  # nopep8
 import routes.get_respondents  # nopep8
 import routes.edit_respondent  # nopep8
 import routes.save_answers #nopep8
+import routes.create_respondent #nopep8
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True)
