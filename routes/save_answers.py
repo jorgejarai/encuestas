@@ -19,7 +19,10 @@ def save_answers(id, user_id):
             }
 
     try:
-        surveys.Surveys().add_answers(user_id, answers)
+        surveys.Surveys().add_answers(id, {
+            "user_id": user_id,
+            "responses": answers
+        })
     except ValueError as e:
         return {
             "status": "error",
