@@ -2,10 +2,12 @@ from __main__ import app
 from db.surveys import Surveys
 from flask import request
 from flask_cors import cross_origin
+from auth import requires_auth
 
 
 @app.route('/surveys', methods=["POST"])
 @cross_origin()
+@requires_auth
 def create_question():
     title = request.json["title"]
     interests = request.json["interests"]
@@ -13,19 +15,19 @@ def create_question():
 
     if len(title) == 0:
         return {
-                "status": "error",
-                "message": "La encuesta no tiene título."
-            }
+            "status": "error",
+            "message": "La encuesta no tiene título."
+        }
     if interests == ['']:
         return {
-                "status": "error",
-                "message": "La encuesta no tiene intereses."
-            }
+            "status": "error",
+            "message": "La encuesta no tiene intereses."
+        }
     if len(questions) == 0:
         return {
-                "status": "error",
-                "message": "La encuesta no tiene preguntas."
-            }
+            "status": "error",
+            "message": "La encuesta no tiene preguntas."
+        }
     for (i, question) in enumerate(questions):
         if question["label"] == "":
             return {
@@ -40,10 +42,10 @@ def create_question():
         for (j, alt) in enumerate(question["alternatives"]):
             if alt["label"] == "":
                 return {
-                "status": "error",
-                "message": f"La pregunta {i + 1} no tiene texto en la alternativa {j+1}."
-            }
-    
+                    "status": "error",
+                    "message": f"La pregunta {i + 1} no tiene texto en la alternativa {j+1}."
+                }
+
     formatted_questions = [{
         "label": q["label"].strip(),
         "type": "selection",

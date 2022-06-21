@@ -9,7 +9,10 @@ app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mong
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['JWT_SECRET'] = 'secret'
+
+app.config['AUTH0_DOMAIN'] = 'probable-fortnight.us.auth0.com'
+app.config['API_AUDIENCE'] = 'https://equipo3-is2-2022/api'
+app.config['ALGORITHMS'] = ['RS256']
 
 Database().setup(app)
 
@@ -17,7 +20,6 @@ import routes  # nopep8
 import routes.create_survey  # nopep8
 import routes.edit_survey  # nopep8
 import routes.get_survey  # nopep8
-import routes.login  # nopep8
 import routes.login_link  # nopep8
 import routes.get_respondents  # nopep8
 import routes.edit_respondent  # nopep8

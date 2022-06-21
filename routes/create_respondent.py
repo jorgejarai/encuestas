@@ -1,10 +1,10 @@
 from __main__ import app
 from flask import request
-from db import surveys
 from db.users import Users
 from flask_cors import cross_origin
 from io import TextIOWrapper
 import csv
+from auth import requires_auth
 
 # Upload folder
 UPLOAD_FOLDER = "static/files"
@@ -15,6 +15,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route("/respondents/new", methods=["POST"])
 @cross_origin()
+@requires_auth
 def create_respondents():
     if not "application/json" in request.content_type:
         csv_file = request.files["file"]

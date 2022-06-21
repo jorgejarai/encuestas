@@ -1,14 +1,14 @@
 from __main__ import app
 from flask import request, make_response, redirect
 from flask_cors import cross_origin
-from auth import generate_token, requires_auth
+from auth import requires_auth
 
 from db.link_sessions import LinkSessions
 
 
 @app.route('/login_link', methods=['POST'])
 @cross_origin()
-@requires_auth(role='editor')
+@requires_auth
 def generate_link():
     email = request.json["email"]
     survey = request.json["survey"]

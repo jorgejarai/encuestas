@@ -2,30 +2,32 @@ from __main__ import app
 from flask import request
 from db.users import Users
 from flask_cors import cross_origin
+from auth import requires_auth
 
 
 @app.route("/respondents/<id>", methods=['PUT'])
 @cross_origin()
+@requires_auth
 def update_respondent(id):
     name = request.json["name"]
     email = request.json["email"]
     interests = request.json["interests"]
-    
+
     if len(name) == 0:
         return {
-                "status": "error",
-                "message": "Falta el nombre."
-            }
+            "status": "error",
+            "message": "Falta el nombre."
+        }
     if len(email) == 0:
         return {
-                "status": "error",
-                "message": "Falta el email."
-            }
+            "status": "error",
+            "message": "Falta el email."
+        }
     if len(interests) == ['']:
         return {
-                "status": "error",
-                "message": "Faltan intereses."
-            }
+            "status": "error",
+            "message": "Faltan intereses."
+        }
     try:
         new_respondent = {
             "name": name,
@@ -47,6 +49,7 @@ def update_respondent(id):
 
 @app.route('/respondents/<id>', methods=['DELETE'])
 @cross_origin()
+@requires_auth
 def delete_respondentid(id):
     try:
         Users().delete(id)

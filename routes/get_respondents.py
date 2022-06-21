@@ -3,12 +3,13 @@ from curses.ascii import US
 from flask import request
 from db import surveys
 from flask_cors import cross_origin
-
-
+from auth import requires_auth
 from db.users import Users
+
 
 @app.route('/respondents', methods=['GET'])
 @cross_origin()
+@requires_auth
 def get_respondents():
     data = Users().get_respondents()
     if not data:
@@ -25,6 +26,7 @@ def get_respondents():
 
 @app.route('/respondents/<id>', methods=['GET'])
 @cross_origin()
+@requires_auth
 def get_respondents_by_id(id):
     data = Users().get_by_id(id)
 
