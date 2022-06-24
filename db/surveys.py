@@ -8,6 +8,7 @@ class Surveys(metaclass=Singleton):
         ret = list(Database().pymongo.db.surveys.find({}, {
             "_id": 1,
             "title": 1,
+            "published": 1
         }))
 
         if ret:

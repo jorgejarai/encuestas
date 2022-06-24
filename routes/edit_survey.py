@@ -12,6 +12,11 @@ def update_survey(id):
     questions = request.json["questions"]
     published = request.json["published"]
     
+    if published == True:
+        return {
+            "status": "error",
+            "message": "No se puede editar una encuesta que ha sido publicada."
+        }
     if len(title) == 0:
         return {
                 "status": "error",
