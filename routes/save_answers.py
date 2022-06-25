@@ -15,7 +15,7 @@ def save_answers(id, user_id):
         if resp == "":
             return {
                 "status": "error",
-                "message": f"La pregunta {i + 1} no ha sido respondida"
+                "message": f"La pregunta {i + 1} no ha sido respondida."
             }
 
     try:
