@@ -32,9 +32,12 @@ class LinkSessions(metaclass=Singleton):
         if not ret:
             return None
 
-        Database().pymongo.db.link_sessions.delete_one({"secret": secret})
-
         if ret["time"] + ret["duration"] < datetime.utcnow().timestamp():
             return None
 
         return ret
+
+    def delete(self, secret: str):
+        """Elimina un link de sesión de la base de datos."""
+
+        Database().pymongo.db.link_sessions.delete_one({"secret": secret})

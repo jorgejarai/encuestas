@@ -7,8 +7,6 @@ from functools import wraps
 from flask import request, jsonify, _request_ctx_stack
 from jose import jwt
 
-# Error handler
-
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -24,37 +22,32 @@ def handle_auth_error(ex):
 
 
 def get_token_auth_header():
-    """Obtains the access token from the Authorization Header
-    """
+    """Obtiene el token de acceso almacenado en la cabecera Authorization"""
     auth = request.headers.get("Authorization", None)
     if not auth:
-        raise AuthError({"code": "authorization_header_missing",
-                         "description":
+        raise AuthError({"status": "error",
+                         "message":
                          "Authorization header is expected"}, 401)
 
     parts = auth.split()
 
     if parts[0].lower() != "bearer":
-        raise AuthError({"code": "invalid_header",
-                         "description":
-                         "Authorization header must start with"
-                         " Bearer"}, 401)
+        raise AuthError({"status": "error",
+                         "message":
+                         "Invalid token format"}, 401)
     elif len(parts) == 1:
-        raise AuthError({"code": "invalid_header",
-                         "description": "Token not found"}, 401)
+        raise AuthError({"status": "error",
+                         "message": "Token not found"}, 401)
     elif len(parts) > 2:
-        raise AuthError({"code": "invalid_header",
-                         "description":
-                         "Authorization header must be"
-                         " Bearer token"}, 401)
+        raise AuthError({"status": "error",
+                         "message": "Invalid token format"}, 401)
 
     token = parts[1]
     return token
 
 
 def requires_auth(f):
-    """Determines if the access token is valid
-    """
+    """Determina si el token de acceso es válido"""
     @wraps(f)
     def decorated(*args, **kwargs):
         token = get_token_auth_header()
@@ -63,6 +56,7 @@ def requires_auth(f):
         jwks = json.loads(jsonurl.read())
         unverified_header = jwt.get_unverified_header(token)
         rsa_key = {}
+
         for key in jwks["keys"]:
             if key["kid"] == unverified_header["kid"]:
                 rsa_key = {
@@ -72,6 +66,7 @@ def requires_auth(f):
                     "n": key["n"],
                     "e": key["e"]
                 }
+
         if rsa_key:
             try:
                 payload = jwt.decode(
@@ -82,16 +77,16 @@ def requires_auth(f):
                     issuer=f"https://{app.config['AUTH0_DOMAIN']}/"
                 )
             except jwt.ExpiredSignatureError:
-                raise AuthError({"code": "token_expired",
-                                 "description": "token is expired"}, 401)
+                raise AuthError({"status": "error",
+                                 "message": "Token is expired"}, 401)
             except Exception:
-                raise AuthError({"code": "invalid_header",
-                                 "description":
-                                 "Unable to parse authentication"
-                                 " token."}, 400)
+                raise AuthError({"status": "error",
+                                 "message": "Invalid token format"}, 400)
 
             _request_ctx_stack.top.current_user = payload
+
             return f(*args, **kwargs)
-        raise AuthError({"code": "invalid_header",
-                         "description": "Unable to find appropriate key"}, 400)
+
+        raise AuthError({"status": "error",
+                         "message": "Unable to find appropriate key"}, 400)
     return decorated

@@ -48,6 +48,6 @@ def link_login():
 
     ret = make_response(
         redirect(f'localhost:3000/answerSurvey/{link_session["survey_id"]}/{link_session["user_id"]}'))
-    ret.set_cookie("token", generate_token(link_session["email"]))
+    ret.set_cookie("link_secret", secret)
 
     return ret
