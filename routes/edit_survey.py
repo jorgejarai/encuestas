@@ -93,3 +93,25 @@ def delete_surveyid(id):
     return {
         "status": "success",
     }
+
+@app.route('/surveys/<id>/<status>', methods=['PUT'])
+@cross_origin()
+@requires_auth
+def update_status_survey(id, status):
+    if status == "publicada":
+        new_survey = {
+            "published": False
+        }
+        surveys.Surveys().update(id, survey=new_survey)
+        return {
+            "status": "success"
+        }
+    if status == "cerrada":
+        new_survey = {
+            "published": True,
+            "answers": []
+        }
+        surveys.Surveys().update(id, survey=new_survey)
+        return {
+            "status": "success"
+        }
