@@ -35,7 +35,7 @@ class Email:
             mime['To'] = email
             mime['Subject'] = subject
             link_path = LinkSessions().add(email,kwargs['id_encuesta'])
-            link = f"http://localhost:6003//{link_path}"
+            link = f"http://localhost:6003/{link_path}"
             format = MIMEText(kwargs['message_format'].replace("$link_correo",link), kwargs['format'])
             mime.attach(format)
             try:

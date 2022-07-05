@@ -21,7 +21,7 @@ class LinkSessions(metaclass=Singleton):
             "survey_id": ObjectId(survey)
         })
 
-        return f"/login_link?secret={secret}"
+        return f"answerSurvey/{ObjectId(survey)}/{user_id}"
 
     def check(self, secret: str):
         """Comprueba si un link de sesión es válido. Retorna True si es
