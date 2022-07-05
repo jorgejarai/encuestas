@@ -27,6 +27,7 @@ import routes.edit_respondent  # nopep8
 import routes.save_answers  # nopep8
 import routes.create_respondent  # nopep8
 import routes.send_email # nopep8
+import routes.get_statistics # nopep8
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5003, debug=True)
