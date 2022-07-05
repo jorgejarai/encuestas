@@ -9,8 +9,8 @@ from src.email_API import Email
 
 @app.route("/postSurvey/<id>", methods=['POST'])
 @cross_origin()
-def send_email(link ='none'):
-    if(link != 'none'):
+def send_email(id):
+    try:
         emails = Users().get_respondents()
         correos = []
         for email in emails:
@@ -18,6 +18,17 @@ def send_email(link ='none'):
         email= Email()
         with open('static/email_template.html', 'r') as f:
             html_string = f.read()
-        email.send_email(correos,'Testing survey',message_format=html_string.format(link),format ='html')
+        email.send_email(correos,'Testing survey',message_format=html_string.format(),format ='html',id_encuesta =id)
+        
+    except ValueError as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+
+    return {
+        "status": "success",
+    }
+    
 
        

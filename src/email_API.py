@@ -10,6 +10,7 @@ import ssl
 from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from db.link_sessions import LinkSessions
 class Email:
 
     def __init__(self) -> None:
@@ -33,7 +34,9 @@ class Email:
             mime['From'] = getenv('SMTP_USER')
             mime['To'] = email
             mime['Subject'] = subject
-            format = MIMEText(kwargs['message_format'], kwargs['format'])
+            link_path = LinkSessions().add(email,kwargs['id_encuesta'])
+            link = f"http://localhost:6003//{link_path}"
+            format = MIMEText(kwargs['message_format'].replace("$link_correo",link), kwargs['format'])
             mime.attach(format)
             try:
                 self.server.sendmail(getenv('SMTP_USER'),email,mime.as_string())
