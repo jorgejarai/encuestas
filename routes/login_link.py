@@ -47,7 +47,6 @@ def link_login():
         }
 
     ret = make_response(
-        redirect(f'localhost:3000/answerSurvey/{link_session["survey_id"]}/{link_session["user_id"]}'))
-    ret.set_cookie("link_secret", secret)
+        redirect(f'http://localhost:6003/answerSurvey/{link_session["survey_id"]}/{link_session["user"]}?secret={secret}'))
 
     return ret

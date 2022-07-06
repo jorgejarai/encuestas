@@ -11,7 +11,7 @@ from flask_cors import cross_origin
 def save_answers(id, user_id):
     user_id = ObjectId(request.json["user_id"])
     answers = request.json["responses"]
-    secret = request.cookies["link_secret"]
+    secret = request.args.get("secret")
 
     if not secret:
         return {
@@ -19,9 +19,11 @@ def save_answers(id, user_id):
             "message": "Necesita un secreto"
         }
 
+    print(secret)
+
     link_session = LinkSessions().check(secret)
 
-    if not link_session or link_session["user_id"] != user_id:
+    if not link_session or link_session["user"] != user_id:
         return {
             "status": "error",
             "message": "Secreto inválido"
