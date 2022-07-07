@@ -25,9 +25,11 @@ def get_statistics(id):
     for i, answer in enumerate(data['answers']):
         answers.append(answer['responses'])
     
-    total = [{},{}]
+    total = []
     for i, pregunta in enumerate(preguntas):
+        total.append({})
         for alternative in pregunta:
+         
          total[i][alternative] = 0
 
     for answer in answers:
