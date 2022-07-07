@@ -11,7 +11,9 @@ from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from db.link_sessions import LinkSessions
+import sys
 class Email:
+
 
     def __init__(self) -> None:
         self.server = SMTP(
@@ -35,7 +37,11 @@ class Email:
             mime['To'] = email
             mime['Subject'] = subject
             link_path = LinkSessions().add(email,kwargs['id_encuesta'])
-            link = f"http://localhost:6003/{link_path}"
+            link = None
+            if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+                link = f"https://is2-2022.inf.udec.cl:5003/{link_path}"
+            else:
+                link = f"http://localhost:5003/{link_path}"
             format = MIMEText(kwargs['message_format'].replace("$link_correo",link), kwargs['format'])
             mime.attach(format)
             try:
