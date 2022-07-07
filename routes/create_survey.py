@@ -56,7 +56,8 @@ def create_question():
         Surveys().create(title=title.strip(),
                          interests=interests,
                          questions=formatted_questions,
-                         published=False)
+                         published=False,
+                         answers=[])
     except ValueError as e:
         return {
             "status": "error",
