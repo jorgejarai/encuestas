@@ -7,9 +7,9 @@ import sys
 
 app = Flask(__name__)
 if len(sys.argv) > 1 and sys.argv[1] == 'prod':
-    app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mongodb.net/encuestas?retryWrites=true&w=majority"
-else:
     app.config['MONGO_URI'] = "mongodb://localhost:27017/encuestas"
+else:
+    app.config['MONGO_URI'] = "mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mongodb.net/encuestas?retryWrites=true&w=majority"
 
 # mongodb+srv://encuestas:encuestas@cluster0.m6eyi.mongodb.net/encuestas?retryWrites=true&w=majority
 # mongodb://localhost:27017/encuestas
