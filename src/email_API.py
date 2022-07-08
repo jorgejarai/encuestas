@@ -12,6 +12,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from db.link_sessions import LinkSessions
 import sys
+<< << << < HEAD
+
+
+== == == =
+>>>>>> > 92d61205dd83e95c92929310e2cb11de1304f9a4
 
 
 class Email:

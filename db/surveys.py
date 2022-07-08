@@ -90,3 +90,21 @@ class Surveys(metaclass=Singleton):
     def delete(self, id):
         """Elimina los datos de una encuesta con determinado ID"""
         Database().pymongo.db.surveys.delete_one({"_id": ObjectId(id)})
+        
+    def check_respondent(self, usuario):
+        """
+            Ver si un usuario respondio la encuesta.
+        """
+        ret = Database().pymongo.db.surveys.find_one({
+            "answers": {
+                "$elemMatch": {
+                    "user_id": ObjectId(usuario)
+                }
+            }
+        })
+
+        if not ret:
+            return None
+
+        return ret
+    

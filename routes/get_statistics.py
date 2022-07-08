@@ -10,6 +10,11 @@ from db.surveys import Surveys
 def get_statistics(id):
     print("STATISTICS")
     data = Surveys().get_by_id(id)
+    if not data:
+        return {
+            "status": "error",
+            "message": "No se encontró la encuesta"
+        }
     preguntas=[]
     answers =[]
     for i,question in enumerate(data['questions']):
@@ -20,22 +25,16 @@ def get_statistics(id):
     for i, answer in enumerate(data['answers']):
         answers.append(answer['responses'])
     
-    total = [{},{}]
+    total = []
     for i, pregunta in enumerate(preguntas):
+        total.append({})
         for alternative in pregunta:
+         
          total[i][alternative] = 0
 
     for answer in answers:
         for i, alternative in enumerate(answer):
             total[i][alternative] += 1
-
-   
-
-    if not data:
-        return {
-            "status": "error",
-            "message": "No se encontró la encuesta"
-        }
 
     return {
         "status": "success",

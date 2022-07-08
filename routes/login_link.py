@@ -2,9 +2,9 @@ from __main__ import app
 from flask import request, make_response, redirect
 from flask_cors import cross_origin
 from auth import requires_auth
-
+from db import surveys
 from db.link_sessions import LinkSessions
-
+import sys
 
 @app.route('/login_link', methods=['POST'])
 @cross_origin()
@@ -33,18 +33,18 @@ def link_login():
     secret = request.args.get('secret')
 
     if not secret:
-        return {
-            "status": "error",
-            "message": "Necesita un secreto"
-        }
+        if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+            return redirect("https://is2-2022.inf.udec.cl:6003/error")
+        else:
+            return redirect("http://localhost:6003/error")
 
     link_session = LinkSessions().check(secret)
 
     if not link_session:
-        return {
-            "status": "error",
-            "message": "Secreto inválido"
-        }
+        if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+            return redirect("https://is2-2022.inf.udec.cl:6003/error")
+        else:
+            return redirect("http://localhost:6003/error")
 
     ret = make_response(
         redirect(f'http://localhost:6003/answerSurvey/{link_session["survey_id"]}/{link_session["user"]}?secret={secret}'))
