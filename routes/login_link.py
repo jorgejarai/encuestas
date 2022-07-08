@@ -35,7 +35,7 @@ def link_login():
 
     if not secret:
         if len(sys.argv) > 1 and sys.argv[1] == 'prod':
-            return redirect("https://is2-2022.inf.udec.cl:6003/error")
+            return redirect("https://encuestas-frontend.vercel.app/error")
         else:
             return redirect("http://localhost:6003/error")
 
@@ -43,7 +43,7 @@ def link_login():
 
     if not link_session:
         if len(sys.argv) > 1 and sys.argv[1] == 'prod':
-            return redirect("https://is2-2022.inf.udec.cl:6003/error")
+            return redirect("https://encuestas-frontend.vercel.app/error")
         else:
             return redirect("http://localhost:6003/error")
 
