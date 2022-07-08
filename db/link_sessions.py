@@ -41,3 +41,10 @@ class LinkSessions(metaclass=Singleton):
         """Elimina un link de sesión de la base de datos."""
 
         Database().pymongo.db.link_sessions.delete_one({"secret": secret})
+
+    def delete_many(self, encuesta):
+        """Elimina todas las link session de una determinada encuesta"""
+        Database().pymongo.db.link_sessions.delete_many({
+            "survey_id":
+                ObjectId(encuesta)
+        })

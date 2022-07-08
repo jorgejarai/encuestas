@@ -3,7 +3,7 @@ from flask import request
 from db import surveys
 from flask_cors import cross_origin
 from auth import requires_auth
-
+from db.link_sessions import LinkSessions
 
 @app.route("/surveys/<id>", methods=['PUT'])
 @cross_origin()
@@ -103,6 +103,7 @@ def update_status_survey(id, status):
             "published": False
         }
         surveys.Surveys().update(id, survey=new_survey)
+        LinkSessions().delete_many(id)
         return {
             "status": "success"
         }

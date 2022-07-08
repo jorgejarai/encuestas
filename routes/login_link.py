@@ -2,7 +2,7 @@ from __main__ import app
 from flask import request, make_response, redirect
 from flask_cors import cross_origin
 from auth import requires_auth
-
+from db import surveys
 from db.link_sessions import LinkSessions
 import sys
 
