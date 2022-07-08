@@ -6,6 +6,7 @@ from db import surveys
 from db.link_sessions import LinkSessions
 import sys
 
+
 @app.route('/login_link', methods=['POST'])
 @cross_origin()
 @requires_auth
@@ -46,7 +47,13 @@ def link_login():
         else:
             return redirect("http://localhost:6003/error")
 
-    ret = make_response(
-        redirect(f'http://localhost:6003/answerSurvey/{link_session["survey_id"]}/{link_session["user"]}?secret={secret}'))
+    ret = None
+
+    if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+        ret = make_response(
+            redirect(f'https://encuestas-frontend.vercel.app/answerSurvey/{link_session["survey_id"]}/{link_session["user"]}?secret={secret}'))
+    else:
+        ret = make_response(
+            redirect(f'http://localhost:6003/answerSurvey/{link_session["survey_id"]}/{link_session["user"]}?secret={secret}'))
 
     return ret
