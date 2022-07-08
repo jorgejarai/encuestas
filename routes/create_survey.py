@@ -40,7 +40,12 @@ def create_question():
                 "message": f"La pregunta {i + 1} no tiene alternativas."
             }
         for (j, alt) in enumerate(question["alternatives"]):
-            print(alt)
+            if alt == "":
+                return {
+                    "status": "error",
+                    "message": f"La pregunta {i + 1} no tiene texto en la alternativa {j+1}."
+                }
+
             if alt["label"] == "":
                 return {
                     "status": "error",
