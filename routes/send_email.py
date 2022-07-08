@@ -18,7 +18,7 @@ def send_email(id):
         email= Email()
         with open('static/email_template.html', 'r') as f:
             html_string = f.read()
-        email.send_email(correos,'Testing survey',message_format=html_string.format(),format ='html',id_encuesta =id)
+        email.send_email(correos,'Answer survey',message_format=html_string.format(),format ='html',id_encuesta =id)
         
     except ValueError as e:
         return {
