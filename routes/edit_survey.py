@@ -5,6 +5,7 @@ from flask_cors import cross_origin
 from auth import requires_auth
 from db.link_sessions import LinkSessions
 
+
 @app.route("/surveys/<id>", methods=['PUT'])
 @cross_origin()
 @requires_auth
@@ -84,6 +85,7 @@ def update_survey(id):
 def delete_surveyid(id):
     try:
         surveys.Surveys().delete(id)
+        LinkSessions().delete_many(id)
     except ValueError as e:
         return {
             "status": "error",
@@ -93,6 +95,7 @@ def delete_surveyid(id):
     return {
         "status": "success",
     }
+
 
 @app.route('/surveys/<id>/<status>', methods=['PUT'])
 @cross_origin()
