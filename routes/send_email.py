@@ -1,6 +1,7 @@
 from __main__ import app
 from flask import request
 from db.users import Users
+from db.surveys import Surveys
 from bson.objectid import ObjectId
 from flask_cors import cross_origin
 from src.email_API import Email
@@ -18,7 +19,8 @@ def send_email(id):
         email= Email()
         with open('static/email_template.html', 'r') as f:
             html_string = f.read()
-        email.send_email(correos,'Answer survey',message_format=html_string.format(),format ='html',id_encuesta =id)
+        title = Surveys().get_by_id(id)['title']
+        email.send_email(correos,title,message_format=html_string.format(),format ='html',id_encuesta =id)
         
     except ValueError as e:
         return {
